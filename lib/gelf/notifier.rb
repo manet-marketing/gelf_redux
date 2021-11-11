@@ -1,6 +1,7 @@
 require 'gelf/transport/udp'
 require 'gelf/transport/tcp'
 require 'gelf/transport/tcp_tls'
+require 'gelf/transport/https'
 
 # replace JSON and #to_json with Yajl if available
 begin
