@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.authors = ["Alexey Palazhchenko", "Lennart Koopmann", "Zac Sprackett", "Marcus Ilgner", "Sebastian Seidel", "Christian Rolle"]
   s.date = "2023-06-19"
-  s.description = "Library to send GELF messages to Graylog logging server. Supports plain-text, GELF messages and exceptions via UDP and TCP."
+  s.description = "Library to send GELF messages to Graylog logging server. Supports plain-text, GELF messages and exceptions via UDP, TCP and HTTPS"
   s.email = "admins@manet-marketing.de"
   s.extra_rdoc_files = [
     "LICENSE",
