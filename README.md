@@ -16,7 +16,7 @@ of the original project because we wanted to keep all of the projects and mainta
 ## Usage
 ### Gelf::Notifier
 
-This allows you to sent arbitary messages via UDP to Graylog.
+This allows you to send arbitary messages via UDP to Graylog.
 
     n = GELF::Notifier.new("localhost", 12201)
 
@@ -60,6 +60,7 @@ Since it's compatible with the Logger interface, you can also use it in your Rai
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a future version unintentionally.
+* Run the tests with `bundle exec rake` 
 * Commit, do not mess with rakefile, version, or history.
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
