@@ -1,11 +1,17 @@
-## GELF Ruby library
+## GELF (anew) Ruby library
+This gem is intended to replace the existing and unmaintained gelf-rb https://github.com/graylog-labs/gelf-rb - since
+the project went silent for a few years and there seems to be no intention in continuing any kind of support
+(https://github.com/graylog-labs/gelf-rb/issues/93). So we decided to not just fork but set up a new gem.
+Since we needed support for http(s) transports as well we are mirroring this fork (https://github.com/christianrolle/gelf-rb) instead
+of the original project because we wanted to keep all of the projects and maintainers history.
 
-This is the new GELF gem written by Alexey Palazhchenko. It is based on the old gem by Lennart Koopmann and allows you to send GELF messages to Graylog or Logstash instances. See the [GELF specification](http://docs.graylog.org/en/stable/pages/gelf.html) for more information about GELF and [RDoc](http://rdoc.info/github/graylog-labs/gelf-rb/master/frames) for API documentation.
+## Versioning
 
-Tested with Ruby 1.9, 2.0, 2.1, 2.2, 2.3 and 2.4.
+- 3.1.1 is the latest original gelf-rb version ()
+- 3.2.1 is the first http(s) supporting version from here https://github.com/christianrolle/gelf-rb
+- 4.0.0 we do start from here with our versioning, improvements and updates
 
-[![Build Status](https://travis-ci.org/graylog-labs/gelf-rb.svg?branch=master)](https://travis-ci.org/graylog-labs/gelf-rb)
-[![Code Climate](https://codeclimate.com/github/graylog-labs/gelf-rb/badges/gpa.svg)](https://codeclimate.com/github/graylog-labs/gelf-rb)
+
 
 ## Usage
 ### Gelf::Notifier

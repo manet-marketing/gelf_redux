@@ -1,0 +1,13 @@
+version: "3"
+volumes:
+  bundle:
+
+services:
+  gelf:
+    build:
+      context: .
+    command: bundle exec rake test
+    volumes:
+      - .:/usr/src/app
+      - "bundle:/bundle"
+
