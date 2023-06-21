@@ -15,7 +15,7 @@ module GELF
       end
       def transfer(message)
         request = Net::HTTP::Post.new(@uri.request_uri)
-        request.body = message.to_json
+        request.body = json_dump(message)
         @headers.each do |key, value|
           # pass header only if value present -> allows clearing default headers
           request[key] = value if value
