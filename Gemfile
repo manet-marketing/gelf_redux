@@ -7,4 +7,5 @@ group :development do
   gem 'rack', '< 2.0'
   gem "mocha", "~> 1.1.0"
   gem "test-unit", "~> 3.2.0"
+  gem "simplecov", "~> 0.20.0"
 end

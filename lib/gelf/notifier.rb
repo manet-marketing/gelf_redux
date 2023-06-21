@@ -1,6 +1,7 @@
 require 'gelf/transport/udp'
 require 'gelf/transport/tcp'
 require 'gelf/transport/tcp_tls'
+require 'gelf/transport/http'
 require 'gelf/transport/https'
 
 # replace JSON and #to_json with Yajl if available
@@ -59,12 +60,12 @@ module GELF
     # Default (safe) value is 'WAN'.
     def max_chunk_size=(size)
       case size.to_s.downcase
-        when 'wan'
-          @max_chunk_size = MAX_CHUNK_SIZE_WAN
-        when 'lan'
-          @max_chunk_size = MAX_CHUNK_SIZE_LAN
-        else
-          @max_chunk_size = size.to_int
+      when 'wan'
+        @max_chunk_size = MAX_CHUNK_SIZE_WAN
+      when 'lan'
+        @max_chunk_size = MAX_CHUNK_SIZE_LAN
+      else
+        @max_chunk_size = size.to_int
       end
     end
 
@@ -84,12 +85,12 @@ module GELF
     # Default (compatible) value is 'logger'.
     def level_mapping=(mapping)
       case mapping.to_s.downcase
-        when 'logger'
-          @level_mapping = GELF::LOGGER_MAPPING
-        when 'direct'
-          @level_mapping = GELF::DIRECT_MAPPING
-        else
-          @level_mapping = mapping
+      when 'logger'
+        @level_mapping = GELF::LOGGER_MAPPING
+      when 'direct'
+        @level_mapping = GELF::DIRECT_MAPPING
+      else
+        @level_mapping = mapping
       end
     end
 
@@ -133,11 +134,12 @@ module GELF
       end
     end
 
-  private
+    private
 
     def create_sender(host, port)
-      return create_https(host, port) if default_options['protocol'] == GELF::Protocol::HTTPS
-
+      if [GELF::Protocol::HTTP, GELF::Protocol::HTTPS].include? default_options['protocol']
+        return create_http(host, port)
+      end
       addresses = [[host, port]]
       if default_options['protocol'] == GELF::Protocol::TCP
         if default_options.key?('tls')
@@ -151,8 +153,13 @@ module GELF
       end
     end
 
-    def create_https(host, port)
-      GELF::Transport::HTTPS.new host, port: port, path: default_options.delete('path')
+    def create_http(host, port)
+      klass = if default_options['protocol'] == GELF::Protocol::HTTPS
+                GELF::Transport::HTTPS
+              else
+                GELF::Transport::HTTP
+              end
+      klass.new host, port: port, path: default_options.delete('path'), headers: default_options.delete('headers')
     end
 
     def notify_with_level(message_level, *args)
