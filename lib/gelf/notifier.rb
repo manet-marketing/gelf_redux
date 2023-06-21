@@ -1,6 +1,7 @@
 require 'gelf/transport/udp'
 require 'gelf/transport/tcp'
 require 'gelf/transport/tcp_tls'
+require 'gelf/transport/https'
 
 # replace JSON and #to_json with Yajl if available
 begin
@@ -135,6 +136,8 @@ module GELF
   private
 
     def create_sender(host, port)
+      return create_https(host, port) if default_options['protocol'] == GELF::Protocol::HTTPS
+
       addresses = [[host, port]]
       if default_options['protocol'] == GELF::Protocol::TCP
         if default_options.key?('tls')
@@ -146,6 +149,10 @@ module GELF
       else
         GELF::Transport::UDP.new(addresses)
       end
+    end
+
+    def create_https(host, port)
+      GELF::Transport::HTTPS.new host, port: port, path: default_options.delete('path')
     end
 
     def notify_with_level(message_level, *args)
@@ -161,6 +168,8 @@ module GELF
       hash = extract_hash(*args)
       hash['level'] = message_level unless message_level.nil?
       if hash['level'] >= level
+        return @sender.transfer(hash) if default_options['protocol'] == GELF::Protocol::HTTPS
+
         if default_options['protocol'] == GELF::Protocol::TCP
           validate_hash(hash)
           @sender.send(hash.to_json + "\0")

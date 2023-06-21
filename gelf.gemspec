@@ -1,13 +1,14 @@
 Gem::Specification.new do |s|
   s.name = "gelf_redux"
+
   s.version = "3.1.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.required_ruby_version = ">= 1.9"
   s.require_paths = ["lib"]
-  s.authors = ["Alexey Palazhchenko", "Lennart Koopmann", "Zac Sprackett", "Marcus Ilgner", "Sebastian Seidel"]
+  s.authors = ["Alexey Palazhchenko", "Lennart Koopmann", "Zac Sprackett", "Marcus Ilgner", "Sebastian Seidel", "Christian Rolle"]
   s.date = "2023-06-19"
-  s.description = "Library to send GELF messages to Graylog logging server. Supports plain-text, GELF messages and exceptions via UDP and TCP."
+  s.description = "Library to send GELF messages to Graylog logging server. Supports plain-text, GELF messages and exceptions via UDP, TCP and HTTPS"
   s.email = "admins@manet-marketing.de"
   s.extra_rdoc_files = [
     "LICENSE",
@@ -46,6 +47,9 @@ Gem::Specification.new do |s|
   if s.respond_to? :specification_version then
     s.specification_version = 4
 
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('3.2.0') then
+      s.add_development_dependency(%q<typhoeus>, ["~> 1.4.0"])
+    end
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<shoulda>, ["~> 2.11.3"])
       s.add_development_dependency(%q<rack>, ["< 2.0"])
