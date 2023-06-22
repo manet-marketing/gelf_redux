@@ -1,24 +1,62 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    metaclass (0.0.4)
-    mocha (1.1.0)
-      metaclass (~> 0.0.1)
-    power_assert (0.3.0)
-    rack (1.6.4)
-    shoulda (2.11.3)
-    test-unit (3.2.1)
+    activesupport (6.1.7.3)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+      zeitwerk (~> 2.3)
+    addressable (2.8.4)
+      public_suffix (>= 2.0.2, < 6.0)
+    concurrent-ruby (1.2.2)
+    crack (0.4.5)
+      rexml
+    docile (1.4.0)
+    hashdiff (1.0.1)
+    i18n (1.14.1)
+      concurrent-ruby (~> 1.0)
+    minitest (5.18.1)
+    mocha (2.0.4)
+      ruby2_keywords (>= 0.0.5)
+    power_assert (2.0.3)
+    public_suffix (5.0.1)
+    rexml (3.2.5)
+    ruby2_keywords (0.0.5)
+    shoulda (4.0.0)
+      shoulda-context (~> 2.0)
+      shoulda-matchers (~> 4.0)
+    shoulda-context (2.0.0)
+    shoulda-matchers (4.5.1)
+      activesupport (>= 4.2.0)
+    simplecov (0.20.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
+    test-unit (3.6.0)
       power_assert
+    timecop (0.9.6)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+    webmock (3.18.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
+    zeitwerk (2.6.8)
 
 PLATFORMS
   java
   ruby
 
 DEPENDENCIES
-  mocha (~> 1.1.0)
-  rack (< 2.0)
-  shoulda (~> 2.11.3)
-  test-unit (~> 3.2.0)
+  mocha (~> 2.0.4)
+  shoulda (~> 4.0.0)
+  simplecov (~> 0.20.0)
+  test-unit (~> 3.6.0)
+  timecop (~> 0.9.6)
+  webmock (~> 3.18.1)
 
 BUNDLED WITH
    1.17.3

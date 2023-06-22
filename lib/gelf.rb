@@ -4,11 +4,12 @@ require 'zlib'
 require 'digest/md5'
 
 module GELF
-  SPEC_VERSION = '1.0'
+  SPEC_VERSION = '1.1'
   module Protocol
     UDP = 0
     TCP = 1
-    HTTPS = 2
+    HTTP = 2
+    HTTPS = 3
   end
 end
 

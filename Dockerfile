@@ -1,3 +1,3 @@
-FROM ruby:2.4
+FROM ruby:2.6
 
 WORKDIR /usr/src/app

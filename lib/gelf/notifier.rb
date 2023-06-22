@@ -1,12 +1,19 @@
 require 'gelf/transport/udp'
 require 'gelf/transport/tcp'
 require 'gelf/transport/tcp_tls'
+require 'gelf/transport/http'
 require 'gelf/transport/https'
 
 # replace JSON and #to_json with Yajl if available
 begin
-  require 'yajl/json_gem'
+  require 'yajl'
+  def json_dump(obj)
+    Yajl.dump(obj)
+  end
 rescue LoadError
+  def json_dump(obj)
+    JSON.dump(obj)
+  end
 end
 
 module GELF
@@ -36,7 +43,6 @@ module GELF
       self.default_options['version'] = SPEC_VERSION
       self.default_options['host'] ||= Socket.gethostname
       self.default_options['level'] ||= GELF::UNKNOWN
-      self.default_options['facility'] ||= 'gelf-rb'
       self.default_options['protocol'] ||= GELF::Protocol::UDP
 
       self.level_mapping = :logger
@@ -59,12 +65,12 @@ module GELF
     # Default (safe) value is 'WAN'.
     def max_chunk_size=(size)
       case size.to_s.downcase
-        when 'wan'
-          @max_chunk_size = MAX_CHUNK_SIZE_WAN
-        when 'lan'
-          @max_chunk_size = MAX_CHUNK_SIZE_LAN
-        else
-          @max_chunk_size = size.to_int
+      when 'wan'
+        @max_chunk_size = MAX_CHUNK_SIZE_WAN
+      when 'lan'
+        @max_chunk_size = MAX_CHUNK_SIZE_LAN
+      else
+        @max_chunk_size = size.to_int
       end
     end
 
@@ -84,12 +90,12 @@ module GELF
     # Default (compatible) value is 'logger'.
     def level_mapping=(mapping)
       case mapping.to_s.downcase
-        when 'logger'
-          @level_mapping = GELF::LOGGER_MAPPING
-        when 'direct'
-          @level_mapping = GELF::DIRECT_MAPPING
-        else
-          @level_mapping = mapping
+      when 'logger'
+        @level_mapping = GELF::LOGGER_MAPPING
+      when 'direct'
+        @level_mapping = GELF::DIRECT_MAPPING
+      else
+        @level_mapping = mapping
       end
     end
 
@@ -133,11 +139,12 @@ module GELF
       end
     end
 
-  private
+    private
 
     def create_sender(host, port)
-      return create_https(host, port) if default_options['protocol'] == GELF::Protocol::HTTPS
-
+      if [GELF::Protocol::HTTP, GELF::Protocol::HTTPS].include? default_options['protocol']
+        return create_http(host, port)
+      end
       addresses = [[host, port]]
       if default_options['protocol'] == GELF::Protocol::TCP
         if default_options.key?('tls')
@@ -151,8 +158,13 @@ module GELF
       end
     end
 
-    def create_https(host, port)
-      GELF::Transport::HTTPS.new host, port: port, path: default_options.delete('path')
+    def create_http(host, port)
+      klass = if default_options['protocol'] == GELF::Protocol::HTTPS
+                GELF::Transport::HTTPS
+              else
+                GELF::Transport::HTTP
+              end
+      klass.new host, port: port, path: default_options.delete('path'), headers: default_options.delete('headers')
     end
 
     def notify_with_level(message_level, *args)
@@ -168,11 +180,12 @@ module GELF
       hash = extract_hash(*args)
       hash['level'] = message_level unless message_level.nil?
       if hash['level'] >= level
-        return @sender.transfer(hash) if default_options['protocol'] == GELF::Protocol::HTTPS
-
+        if [GELF::Protocol::HTTP, GELF::Protocol::HTTPS].include? default_options['protocol']
+          return @sender.transfer(hash)
+        end
         if default_options['protocol'] == GELF::Protocol::TCP
           validate_hash(hash)
-          @sender.send(hash.to_json + "\0")
+          @sender.send(json_dump(hash) + "\0")
         else
           @sender.send_datagrams(datagrams_from_hash(hash))
         end
@@ -190,7 +203,9 @@ module GELF
                        { 'short_message' => object.to_s }
                      end
 
-      hash = default_options.merge(self.class.stringify_keys(args.merge(primary_data)))
+      default_message_data = default_options.dup
+      default_message_data.delete('protocol')
+      hash = default_message_data.merge(self.class.stringify_keys(args.merge(primary_data)))
       convert_hoptoad_keys_to_graylog2(hash)
       set_file_and_line(hash) if @collect_file_and_line
       set_timestamp(hash)
@@ -269,7 +284,7 @@ module GELF
     def serialize_hash(hash)
       validate_hash(hash)
 
-      Zlib::Deflate.deflate(hash.to_json).bytes
+      Zlib::Deflate.deflate(json_dump(hash)).bytes
     end
 
     def self.stringify_keys(data)

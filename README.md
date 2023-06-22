@@ -1,4 +1,4 @@
-## GELF (anew) Ruby library
+## GELF (redux) Ruby library
 This gem is intended to replace the existing and unmaintained gelf-rb https://github.com/graylog-labs/gelf-rb - since
 the project went silent for a few years and there seems to be no intention in continuing any kind of support
 (https://github.com/graylog-labs/gelf-rb/issues/93). So we decided to not just fork but set up a new gem.
