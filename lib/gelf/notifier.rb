@@ -180,8 +180,9 @@ module GELF
       hash = extract_hash(*args)
       hash['level'] = message_level unless message_level.nil?
       if hash['level'] >= level
-        return @sender.transfer(hash) if default_options['protocol'] == GELF::Protocol::HTTPS
-
+        if [GELF::Protocol::HTTP, GELF::Protocol::HTTPS].include? default_options['protocol']
+          return @sender.transfer(hash)
+        end
         if default_options['protocol'] == GELF::Protocol::TCP
           validate_hash(hash)
           @sender.send(json_dump(hash) + "\0")

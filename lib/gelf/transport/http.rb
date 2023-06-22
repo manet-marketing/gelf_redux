@@ -1,12 +1,12 @@
 module GELF
   module Transport
     class HTTP
-      def initialize(host, port: 80, path: nil, headers: nil)
+      def initialize(host, port: 80, path: '', headers: nil)
         @uri = URI::HTTP.build host: host, port: port
         setup(headers, path)
       end
       def setup(headers, path)
-        path = "/#{path.to_s.delete_prefix('/')}" if path.present?
+        path = "/#{path.to_s.delete_prefix('/')}"
         @uri.path = path
         @http = Net::HTTP.new(@uri.host, @uri.port)
         @http.use_ssl = true if @uri.instance_of? URI::HTTPS

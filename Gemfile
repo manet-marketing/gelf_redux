@@ -1,11 +1,10 @@
 source "https://rubygems.org"
 
 group :development do
-  gem "shoulda", "~> 2.11.3"
-  # Because of a dependency chain jeweler->github_api->oauth2->rack,
-  # pin the version: Rack 2.0.x doesn't work on < Ruby 2.2
-  gem 'rack', '< 2.0'
-  gem "mocha", "~> 1.1.0"
-  gem "test-unit", "~> 3.2.0"
+  gem "shoulda", "~> 4.0.0"
+  gem "mocha", "~> 2.0.4"
+  gem "test-unit", "~> 3.6.0"
   gem "simplecov", "~> 0.20.0"
+  gem "webmock", "~> 3.18.1"
+  gem "timecop", "~> 0.9.6"
 end
