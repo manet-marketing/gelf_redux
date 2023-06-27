@@ -65,6 +65,16 @@ Since it's compatible with the Logger interface, you can also use it in your Rai
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
-## Copyright
+## Contributions
+* Feel free to open up pull request
 
-Copyright (c) 2010-2016 Lennart Koopmann and Alexey Palazhchenko. See LICENSE for details.
+### Running the tests
+* install docker with compose
+
+```bash
+# install gems
+docker-compose run app bundle
+
+# run tests
+docker-compose up
+```

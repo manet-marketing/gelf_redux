@@ -3,7 +3,8 @@ module GELF
     class HTTPS < HTTP
       def initialize(host, port: 443, path: nil, headers: nil)
         @uri = URI::HTTPS.build host: host, port: port
-        setup(headers, path)
+        @headers = headers
+        @path = path
       end
     end
   end

@@ -1,3 +1,9 @@
+PATH
+  remote: .
+  specs:
+    gelf_redux (4.0.1)
+      json
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -16,11 +22,14 @@ GEM
     hashdiff (1.0.1)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
+    json (2.6.3)
+    json (2.6.3-java)
     minitest (5.18.1)
     mocha (2.0.4)
       ruby2_keywords (>= 0.0.5)
     power_assert (2.0.3)
     public_suffix (5.0.1)
+    rake (13.0.6)
     rexml (3.2.5)
     ruby2_keywords (0.0.5)
     shoulda (4.0.0)
@@ -51,7 +60,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  gelf_redux!
   mocha (~> 2.0.4)
+  rake
   shoulda (~> 4.0.0)
   simplecov (~> 0.20.0)
   test-unit (~> 3.6.0)
