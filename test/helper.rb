@@ -3,7 +3,7 @@ SimpleCov.start
 require 'rubygems'
 require 'test/unit'
 require 'shoulda'
-require 'mocha/setup'
+require 'mocha/test_unit'
 require 'webmock/test_unit'
 require 'timecop'
 

@@ -1,13 +1,15 @@
 version: "3"
+
 volumes:
   bundle:
 
 services:
-  gelf:
+  app:
     build:
       context: .
-    command: bundle exec rake test
+    command: bundle exec rake
     volumes:
       - .:/usr/src/app
       - "bundle:/bundle"
-
+    environment:
+      BUNDLE_PATH: /bundle
