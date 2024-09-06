@@ -14,6 +14,8 @@ module GELF
         progname = default_options['facility']
       end
 
+      message = formatter.call(level, Time.now, progname, message) if formatter.respond_to?(:call)
+
       message_hash = {}
       message_hash['facility'] = progname if progname
 
