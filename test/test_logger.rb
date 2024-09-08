@@ -169,10 +169,18 @@ class TestLogger < Test::Unit::TestCase
         @logger.add(GELF::INFO, { :short_message => '' })
       end
 
-      should 'implement add method with level and ignore hash with nil short_message entry' do
-        @logger.expects(:notify_with_level!).never
-        @logger.add(GELF::INFO, { :short_message => nil })
+       # logger.add(Logger::INFO) { 'Message' }
+       should "implement add method with level and message from block with rails formatter" do
+        @logger.formatter = proc do |severity, datetime, progname, msg|
+          "#{severity} - #{datetime.strftime("%Y") } - [#{progname}]: #{msg}"
+        end
+        @logger.expects(:notify_with_level!).with do |level, hash|
+          level == GELF::INFO &&
+          hash['short_message'] == "1 - #{Time.now.strftime("%Y")} - []: Message"
+        end
+        @logger.add(GELF::INFO) { 'Message' }
       end
+
     end
 
     GELF::Levels.constants.each do |const|
