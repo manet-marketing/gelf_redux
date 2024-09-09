@@ -73,8 +73,10 @@ Since it's compatible with the Logger interface, you can also use it in your Rai
 
 ```bash
 # install gems
-docker-compose run app bundle
+docker-compose run --rm app bundle install
+```
 
+```bash
 # run tests
 docker-compose up
 ```
