@@ -22,7 +22,13 @@ services:
       context: .
       args:
         RUBY_VERSION: 3.0
-
+  ruby31:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.1
   ruby32:
     volumes:
       - .:/usr/src/app
