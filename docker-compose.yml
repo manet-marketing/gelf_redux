@@ -1,15 +1,46 @@
-version: "3"
-
-volumes:
-  bundle:
-
 services:
-  app:
-    build:
-      context: .
-    command: bundle exec rake
+  ruby26:
     volumes:
       - .:/usr/src/app
-      - "bundle:/bundle"
-    environment:
-      BUNDLE_PATH: /bundle
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 2.6
+
+  ruby27:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 2.7
+
+  ruby30:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.0
+  ruby31:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.1
+  ruby32:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.2
+
+  ruby33:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.3

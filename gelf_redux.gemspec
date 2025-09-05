@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = "gelf_redux"
-  s.version = File.read('VERSION')
-
+  gem_version = Gem::Version.new(File.read('VERSION').strip)
+  s.version = gem_version
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.required_ruby_version = ">= 2.6"
   s.require_paths = ["lib"]
@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.summary = "Library to send GELF messages to Graylog logging server."
 
-  if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('3.2.0') && Gem::Version.new(Gem::VERSION) < Gem::Version.new('4.0.0') then
-    s.add_runtime_dependency(%q<typhoeus>, ["~> 1.4.0"])
+  if gem_version >= Gem::Version.new('3.2.0') && gem_version < Gem::Version.new('4.0.0')
+    s.add_runtime_dependency('typhoeus', '~> 1.4.0')
   end
   s.add_development_dependency(%q<shoulda>, ["~> 4.0.0"])
   s.add_development_dependency(%q<mocha>, ["~> 2.0.4"])
