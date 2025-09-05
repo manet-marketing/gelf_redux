@@ -1,3 +1,9 @@
+4.2.0  2025-08-05
++ improvements for local development
++ github actions for autmated tests/releases
++ fix test suite for ruby 3.3+ (Socket::ResolutionError)
++ bump bundler to 2.4.22 to make testing compatible among ruby versions (2.6+)
+
 4.1.0, 2024-09-09 @icarome Allow the usage of the rails formatter when defined
 
 4.0.1, 2023-06-27 merge open pull requests
