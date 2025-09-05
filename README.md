@@ -75,3 +75,22 @@ Or you can run a specific test:
 ```bash
 docker compose up ruby26
 ```
+
+### Create a release
+- The VERSION file has to be updated to the new version number because it is used in gelf_redux.gemspec to
+have a generic way of bumping the version
+- CHANGELOG should be updated with a few hints about the release
+- a release tag should be created from main branch after all PRs that will be part of the release have been merged
+- creating a tag for the version is mandatory to be able to come back later for a fix-release if needed, example:
+```shell
+git tag v4.2.0
+git push origin main --tags
+```
+#### For tags < 4.2.0
+There is no automated way of pushing to rubygems, so we have to run these commands on a developers machine:
+```shell
+gem build *.gemspec
+gem push *.gem
+```
+#### For tags >= 4.2.0
+There is a github action for automated releases which will run as soon as a version tag has been pushed
