@@ -1,4 +1,8 @@
-4.2.0  2025-08-05
+4.3.0, 2025-08-05
++ improve README
++ security update (REXML denial of service vulnerability -> 3.2.8 to 3.3.9)
+
+4.2.0, 2025-08-05
 + improvements for local development
 + github actions for autmated tests/releases
 + fix test suite for ruby 3.3+ (Socket::ResolutionError)

@@ -21,7 +21,7 @@ services:
     build:
       context: .
       args:
-        RUBY_VERSION: 3.0
+        RUBY_VERSION: 3.0.7 #3.0 seems (at least currently) to load a ruby 3.4 version which will cause errors
   ruby31:
     volumes:
       - .:/usr/src/app
