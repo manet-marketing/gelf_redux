@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gelf_redux (4.1.0)
+    gelf_redux (4.2.0)
       json
 
 GEM
@@ -73,4 +73,4 @@ DEPENDENCIES
   webmock (~> 3.18.1)
 
 BUNDLED WITH
-   1.17.3
+   2.4.22
