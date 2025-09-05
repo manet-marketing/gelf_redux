@@ -59,11 +59,7 @@ Since it's compatible with the Logger interface, you can also use it in your Rai
 
 * Fork the project.
 * Make your feature addition or bug fix.
-* Add tests for it. This is important so I don't break it in a future version unintentionally.
-* Run the tests with `bundle exec rake` 
-* Commit, do not mess with rakefile, version, or history.
-  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
-* Send me a pull request. Bonus points for topic branches.
+* Add tests for it. This is important so nothing breaks in a future version unintentionally.
 
 ## Contributions
 * Feel free to open up pull request
@@ -71,12 +67,11 @@ Since it's compatible with the Logger interface, you can also use it in your Rai
 ### Running the tests
 * install docker with compose
 
+You can either run tests against the ruby versions defined in docker-compose.yml:
 ```bash
-# install gems
-docker-compose run --rm app bundle install
+docker compose up
 ```
-
+Or you can run a specific test:
 ```bash
-# run tests
-docker-compose up
+docker compose up ruby26
 ```
