@@ -301,12 +301,21 @@ class TestNotifier < Test::Unit::TestCase
   end
 
   context "with notifier with real sender" do
+    socket_exception_class =
+      if defined?(Socket::ResolutionError)
+        # Ruby 3.3+: getaddrinfo raises Socket::ResolutionError
+        Socket::ResolutionError
+      else
+        # Older Rubies: SocketError
+        SocketError
+      end
+
     setup do
       @notifier = GELF::Notifier.new('no_such_host_321')
     end
 
     should "raise exception" do
-      assert_raise(SocketError) { @notifier.notify('Hello!') }
+      assert_raises(socket_exception_class) { @notifier.notify('Hello!') }
     end
 
     should "not raise exception if asked" do
