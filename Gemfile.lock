@@ -30,8 +30,7 @@ GEM
     power_assert (2.0.3)
     public_suffix (5.0.1)
     rake (13.0.6)
-    rexml (3.2.8)
-      strscan (>= 3.0.9)
+    rexml (3.3.9)
     ruby2_keywords (0.0.5)
     shoulda (4.0.0)
       shoulda-context (~> 2.0)
@@ -45,8 +44,6 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    strscan (3.1.0)
-    strscan (3.1.0-java)
     test-unit (3.6.0)
       power_assert
     timecop (0.9.6)
