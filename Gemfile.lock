@@ -30,7 +30,7 @@ GEM
     power_assert (2.0.3)
     public_suffix (5.0.1)
     rake (13.0.6)
-    rexml (3.3.9)
+    rexml (3.4.2)
     ruby2_keywords (0.0.5)
     shoulda (4.0.0)
       shoulda-context (~> 2.0)
