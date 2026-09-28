@@ -35,7 +35,7 @@ module GELF
 
       def connect(host, port)
         plain_socket = super(host, port)
-        start_tls(plain_socket)
+        start_tls(plain_socket, host)
       rescue OpenSSL::SSL::SSLError
         plain_socket.close unless plain_socket.closed?
         raise unless rescue_ssl_errors
@@ -43,10 +43,13 @@ module GELF
       end
 
       # Initiates TLS communication on the socket
-      def start_tls(plain_socket)
+      def start_tls(plain_socket, host)
         ssl_socket_class.new(plain_socket, ssl_context).tap do |ssl_socket|
           ssl_socket.sync_close = true
+          ssl_socket.hostname = host if ssl_socket.respond_to?(:hostname=) # SNI
           ssl_socket.connect
+          # VERIFY_PEER only checks the chain; also check the cert was issued for this host
+          ssl_socket.post_connection_check(host) unless @tls_options['no_verify']
         end
       end
 
@@ -88,7 +91,7 @@ module GELF
       def restrict_ciphers(ctx)
         # This CipherString is will allow a variety of 'currently' cryptographically secure ciphers, 
         # while also retaining a broad level of compatibility
-        ctx.ciphers = "TLSv1_2:TLSv1_1:TLSv1:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:!ADH:!IDEA:!3DES"
+        ctx.ciphers = "TLSv1.2:TLSv1.1:TLSv1:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:!ADH:!IDEA:!3DES"
       end
 
       def verify_mode
