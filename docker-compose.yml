@@ -44,3 +44,19 @@ services:
       context: .
       args:
         RUBY_VERSION: 3.3
+
+  ruby34:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: 3.4
+
+  ruby40:
+    volumes:
+      - .:/usr/src/app
+    build:
+      context: .
+      args:
+        RUBY_VERSION: "4.0"

@@ -16,11 +16,11 @@ Gem::Specification.new do |s|
   if gem_version >= Gem::Version.new('3.2.0') && gem_version < Gem::Version.new('4.0.0')
     s.add_runtime_dependency('typhoeus', '~> 1.4.0')
   end
-  s.add_development_dependency(%q<shoulda>, ["~> 4.0.0"])
+  s.add_development_dependency(%q<shoulda-context>, ["~> 2.0"])
   s.add_development_dependency(%q<mocha>, ["~> 2.0.4"])
   s.add_development_dependency(%q<test-unit>, ["~> 3.6.0"])
   s.add_development_dependency(%q<simplecov>, ["~> 0.20.0"])
-  s.add_development_dependency(%q<webmock>, ["~> 3.18.1"])
+  s.add_development_dependency(%q<webmock>, ["~> 3.18"])
   s.add_development_dependency(%q<timecop>, ["~> 0.9.6"])
   s.add_development_dependency(%q<rake>)
   s.add_runtime_dependency(%q<json>, [">= 0"])
