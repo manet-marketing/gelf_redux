@@ -91,7 +91,7 @@ module GELF
       def restrict_ciphers(ctx)
         # This CipherString is will allow a variety of 'currently' cryptographically secure ciphers, 
         # while also retaining a broad level of compatibility
-        ctx.ciphers = "TLSv1_2:TLSv1_1:TLSv1:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:!ADH:!IDEA:!3DES"
+        ctx.ciphers = "TLSv1.2:TLSv1.1:TLSv1:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!DSS:!RC4:!SEED:!ECDSA:!ADH:!IDEA:!3DES"
       end
 
       def verify_mode
