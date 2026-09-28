@@ -7,37 +7,58 @@ of the original project because we wanted to keep all of the projects and mainta
 
 ## Versioning
 
-- 3.1.1 is the latest original gelf-rb version ()
+- 3.1.1 is the latest original gelf-rb version (https://github.com/graylog-labs/gelf-rb)
 - 3.2.1 is the first http(s) supporting version from here https://github.com/christianrolle/gelf-rb
 - 4.0.0 we do start from here with our versioning, improvements and updates
 
+See the [CHANGELOG](CHANGELOG) for release details.
 
+## Installation
+
+Add `gem 'gelf_redux'` to your Gemfile (and run `bundle install`), or run `gem install gelf_redux`.
+Load the library with `require 'gelf_redux'`.
 
 ## Usage
-### Gelf::Notifier
+### GELF::Notifier
 
-This allows you to send arbitary messages via UDP to Graylog.
+This allows you to send arbitrary messages via UDP to Graylog.
 
     n = GELF::Notifier.new("localhost", 12201)
 
     # Send with custom attributes and an additional parameter "foo"
-    n.notify!(:short_message => "foo", :full_message => "something here\n\nbacktrace?!", :_foo => "bar")
+    n.notify!(short_message: "foo", full_message: "something here\n\nbacktrace?!", _foo: "bar")
 
     # Pass any object that responds to .to_hash
     n.notify!(Exception.new)
 
 The recommended default is to send via UDP but you can choose to send via TCP like this:
 
-    n = GELF::Notifier.new("127.0.0.1", 12201, "LAN", { :protocol => GELF::Protocol::TCP })
+    n = GELF::Notifier.new("127.0.0.1", 12201, "LAN", { protocol: GELF::Protocol::TCP })
 
 Note that the `LAN` or `WAN` option is ignored for TCP because no chunking happens. (Read below for more information.)
 
-### Gelf::Logger
+For a Graylog GELF HTTP input, select HTTP or HTTPS. The `:path` and `:headers` options are available if your endpoint requires them:
 
-The Gelf::Logger is compatible with the standard Ruby Logger interface and can be used interchangeably.
-Under the hood it uses Gelf::Notifier to send log messages via UDP to Graylog.
+    n = GELF::Notifier.new("localhost", 12201, "WAN", { protocol: GELF::Protocol::HTTP })
+    n.notify!("Hello from HTTP")
 
-    logger = GELF::Logger.new("localhost", 12201, "WAN", { :facility => "appname" })
+    # For an HTTPS input, use GELF::Protocol::HTTPS and its HTTPS port:
+    n = GELF::Notifier.new("graylog.example.com", 443, "WAN", { protocol: GELF::Protocol::HTTPS })
+
+For TLS over a GELF TCP input, pass `:tls`. Certificate and hostname verification are enabled by default; specify `"ca"` to trust a custom CA. The host must match the server certificate:
+
+    n = GELF::Notifier.new("graylog.example.com", 12201, "WAN", {
+      protocol: GELF::Protocol::TCP,
+      tls: { "ca" => "/path/to/ca.pem" }
+    })
+    n.notify!("Hello from TLS")
+
+### GELF::Logger
+
+The GELF::Logger is compatible with the standard Ruby Logger interface and can be used interchangeably.
+Under the hood it uses GELF::Notifier to send log messages via UDP to Graylog.
+
+    logger = GELF::Logger.new("localhost", 12201, "WAN", { facility: "appname" })
 
     logger.debug "foobar"
     logger.info "foobar"
@@ -47,13 +68,13 @@ Under the hood it uses Gelf::Notifier to send log messages via UDP to Graylog.
 
     logger << "foobar"
 
-Then `WAN` or `LAN` option influences the UDP chunk size depending on if you send in your own
+The `WAN` or `LAN` option influences the UDP chunk size depending on whether you send in your own
 network (LAN) or on a longer route (i.e. through the internet) and should be set accordingly.
 
 Since it's compatible with the Logger interface, you can also use it in your Rails application:
 
     # config/environments/production.rb
-    config.logger = GELF::Logger.new("localhost", 12201, "WAN", { :facility => "appname" })
+    config.logger = GELF::Logger.new("localhost", 12201, "WAN", { facility: "appname" })
 
 ### Note on Patches/Pull Requests
 
@@ -71,7 +92,7 @@ You can either run tests against the ruby versions defined in docker-compose.yml
 ```bash
 docker compose up
 ```
-Or you can run a specific test:
+Or you can run the tests for a specific Ruby version:
 ```bash
 docker compose up ruby26
 ```
